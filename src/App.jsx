@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 // ─── CONFIGURAÇÃO DO SUPABASE ────────────────────────────────────────────────
-// Substitui os valores abaixo com as credenciais do teu painel do Supabase
 const SUPABASE_URL = "https://ddgusvxkzjoshugskoav.supabase.co"; 
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkZ3Vzdnhrempvc2h1Z3Nrb2F2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5NzQ5MjcsImV4cCI6MjA5NTU1MDkyN30.6lPaGxzhK49MJTv9uq9mQiM9f-5x4XORv-mTPUljagw";
 
@@ -91,7 +90,7 @@ const stockKey = (pId, size) => `${pId}_${size}`;
 const Icon = ({ name, size = 16 }) => {
   const icons = {
     plus: "M12 5v14M5 12h14",
-    trash: "M3 6h18M19 6v14a2 2  0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",
+    trash: "M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",
     x: "M18 6L6 18M6 6l12 12",
     check: "M20 6L9 17l-5-5",
     download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4M7 10l5 5 5-5M12 15V3"
@@ -123,13 +122,13 @@ const ManpowerLogoHeader = () => (
 
 function Modal({ title, onClose, children }) {
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(15, 23, 42, 0.6)", backdropFilter: "blur(4px)", zIndex: 100, display: "flex", alignItems: "flex-end", justifyCenter: "center", justifyContent: "center" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(15, 23, 42, 0.6)", backdropFilter: "blur(4px)", zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
       <div style={{ background: "#ffffff", borderTopLeftRadius: 20, borderTopRightRadius: 20, width: "100%", maxWidth: 600, maxHeight: "92vh", display: "flex", flexDirection: "column", boxShadow: "0 -10px 25px -5px rgba(0,0,0,0.1)" }}>
         <div style={{ padding: "16px 20px", borderBottom: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <h2 style={{ color: "#1e293b", fontSize: 16, fontWeight: "bold", margin: 0 }}>{title}</h2>
           <button onClick={onClose} style={{ background: "#f1f5f9", border: "none", color: "#64748b", cursor: "pointer", padding: 8, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}><Icon name="x" size={18} /></button>
         </div>
-        <div style={{ padding: "20px 16px", overflowY: "auto", background: "#f8fafc", pb: 40 }}>{children}</div>
+        <div style={{ padding: "20px 16px", overflowY: "auto", background: "#f8fafc", paddingBottom: 40 }}>{children}</div>
       </div>
     </div>
   );
@@ -176,28 +175,11 @@ export default function App() {
       // Converter array de equipamentos do Supabase para o formato de objeto { pId_size: qtd } da App
       const stockObj = {};
       cloudEquipamentos.forEach((item) => {
-        // O campo 'categoria' guarda a chave composta ex: "pr1_42"
         stockObj[item.categoria] = item.quantidade_disponivel;
       });
 
-      // Mapear dados do histórico do Supabase para o layout interno do React
-      const mappedMovements = cloudMovements.map((m) => ({
-        id: m.id,
-        type: m.tipo_movimento,
-        productId: m.operador, // reutilizado temporariamente para passar o ID do produto
-        size: m.operador.split("_")[1] || "", // extração segura do tamanho se guardado junto
-        clientId: m.operador, // mapeamentos ajustados dinamicamente
-        qty: m.quantidade,
-        date: m.data,
-        // Campos reais adaptados à tabela simplificada que criamos:
-        _realProductId: m.operador, 
-        _realClientStr: m.operador 
-      }));
-
-      // NOTA: Como a tabela foi criada genérica, vamos usar um mapeamento limpo direto.
-      // Para manter compatibilidade perfeita, vamos reconstruir dinamicamente os movimentos a partir dos registos.
+      // Reconstruir dinamicamente os movimentos a partir dos registos JSON em 'operador'
       const formattedMovements = cloudMovements.map(m => {
-        // Na nossa tabela, guardámos os metadados em strings limpas
         try {
           const meta = JSON.parse(m.operador);
           return {
@@ -215,7 +197,7 @@ export default function App() {
             type: m.tipo_movimento,
             productId: "pr1",
             size: "M",
-            clientId: "cl1",
+            clientId: "armazem",
             qty: m.quantidade,
             date: m.data
           };
@@ -253,7 +235,11 @@ export default function App() {
 
   // Gravar movimentos e atualizar Stock na nuvem em tempo real
   const processBatch = async () => {
-    if (!cartClient) { showToast("Selecione o Cliente Relacionado", false); return; }
+    // CORRECÇÃO: Só obriga a escolher cliente se for uma SAÍDA (Consumo)
+    if (cartType === "exit" && !cartClient) { 
+      showToast("Selecione o Cliente Relacionado", false); 
+      return; 
+    }
     if (cartItems.length === 0) { showToast("O carrinho está vazio", false); return; }
 
     setLoading(true);
@@ -288,18 +274,18 @@ export default function App() {
             .from("equipamentos")
             .insert([{ 
               nome: getProduct(item.productId).name, 
-              categoria: key, // guardamos a chave 'prX_tam' no campo categoria
+              categoria: key, 
               quantidade_total: finalQty,
               quantidade_disponivel: finalQty 
             }]);
         }
 
         // 2. Registar o Movimento no Histórico do Supabase
-        // Guardamos as referências estruturadas como string JSON dentro do campo 'operador'
+        // CORRECÇÃO: Se for entrada, guardamos clientId como "armazem"
         const metaDados = JSON.stringify({
           productId: item.productId,
           size: item.size,
-          clientId: cartClient
+          clientId: cartType === "entry" ? "armazem" : cartClient
         });
 
         await supabase
@@ -317,7 +303,6 @@ export default function App() {
       setCartItems([]);
       setCartClient("");
       
-      // Recarregar dados para garantir sincronia absoluta com os outros telemóveis
       await fetchCloudData();
     } catch (error) {
       console.error(error);
@@ -360,9 +345,9 @@ export default function App() {
     } else {
       todayMovements.forEach(m => {
         const p = getProduct(m.productId);
-        const c = getClient(m.clientId);
         const typeStr = m.type === "entry" ? "[ENTRADA FORNECEDOR]" : "[SAÍDA CONSUMO]";
-        content += `${fmtDate(m.date)} | ${typeStr} | ${p?.name} (${m.size}) | Qtd: ${m.qty} | Cli: ${c?.name || "N/A"}\n`;
+        const destStr = m.clientId === "armazem" ? "Armazém Central" : (getClient(m.clientId)?.name || "N/A");
+        content += `${fmtDate(m.date)} | ${typeStr} | ${p?.name} (${m.size}) | Qtd: ${m.qty} | Dest/Orig: ${destStr}\n`;
       });
     }
 
@@ -394,7 +379,7 @@ export default function App() {
 
       {/* Header Mobile-First */}
       <header style={{ padding: "12px 16px", background: "#ffffff", borderBottom: "1px solid #e2e8f0", display: "flex", flexDirection: "column", gap: 12, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyInter: "space-between", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <ManpowerLogoHeader />
             <div style={{ borderLeft: "1px solid #cbd5e1", paddingLeft: 8 }}>
@@ -432,7 +417,7 @@ export default function App() {
 
       {/* Tabs */}
       <nav style={{ display: "flex", background: "#ffffff", borderBottom: "1px solid #e2e8f0" }}>
-        <button onClick={() => setTab("stock")} style={{ flex: 1, padding: "14px 8px", background: "none", border: "none", borderBottom: tab === "stock" ? "3px  solid #3882b4" : "3px solid transparent", color: tab === "stock" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 12, textAlign: "center" }}>INVENTÁRIO</button>
+        <button onClick={() => setTab("stock")} style={{ flex: 1, padding: "14px 8px", background: "none", border: "none", borderBottom: tab === "stock" ? "3px solid #3882b4" : "3px solid transparent", color: tab === "stock" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 12, textAlign: "center" }}>INVENTÁRIO</button>
         <button onClick={() => setTab("movements")} style={{ flex: 1, padding: "14px 8px", background: "none", border: "none", borderBottom: tab === "movements" ? "3px solid #3882b4" : "3px solid transparent", color: tab === "movements" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 12, textAlign: "center" }}>HISTÓRICO ({movements.length})</button>
       </nav>
 
@@ -487,7 +472,10 @@ export default function App() {
                   <div style={{ fontSize: 12, color: "#64748b", display: "flex", flexDirection: "column", gap: 2 }}>
                     <div>
                       {m.type === "exit" ? "Destino: " : "Origem: "}
-                      <b style={{ color: "#475569" }}>{getClient(m.clientId)?.name?.split(" ")[0]} ...</b>
+                      {/* CORRECÇÃO: Apresenta Armazém Central nas Entradas */}
+                      <b style={{ color: "#475569" }}>
+                        {m.clientId === "armazem" ? "Armazém Central" : (getClient(m.clientId)?.name?.split(" ")[0] || "N/A")} ...
+                      </b>
                     </div>
                     <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{fmtDate(m.date)} • {m.type === "entry" ? "Reposição" : "Consumo"}</div>
                   </div>
@@ -512,13 +500,16 @@ export default function App() {
             >ENTRADA (Aumento)</button>
           </div>
 
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Cliente / Contrato Destinatário</label>
-            <select value={cartClient} onChange={e => setCartClient(e.target.value)}>
-              <option value="">Selecione a operação...</option>
-              {defaultData.clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-          </div>
+          {/* CORRECÇÃO: O campo do Cliente agora só aparece se for uma SAÍDA */}
+          {cartType === "exit" && (
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Cliente / Contrato Destinatário</label>
+              <select value={cartClient} onChange={e => setCartClient(e.target.value)}>
+                <option value="">Selecione a operação...</option>
+                {defaultData.clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
+          )}
 
           <div style={{ background: "#ffffff", padding: 14, borderRadius: 10, border: "1px solid #cbd5e1", marginBottom: 16 }}>
             <h4 style={{ fontSize: 12, fontWeight: "700", marginBottom: 10, color: "#3882b4", textTransform: "uppercase", margin: 0 }}>Adicionar ao Lote</h4>
@@ -568,9 +559,10 @@ export default function App() {
             </div>
           )}
 
+          {/* CORRECÇÃO: O botão já não bloqueia por falta de cliente se o tipo for "entry" */}
           <button 
             onClick={processBatch}
-            disabled={cartItems.length === 0 || !cartClient || loading}
+            disabled={cartItems.length === 0 || (cartType === "exit" && !cartClient) || loading}
             style={{ width: "100%", padding: 14, borderRadius: 10, border: "none", background: cartType === "entry" ? "#77a28f" : "#3882b4", color: "white", fontWeight: "bold", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}
           >
             <Icon name="check" size={18} /> {loading ? "A SINCRONIZAR..." : "SUBMETER MOVIMENTO"}
