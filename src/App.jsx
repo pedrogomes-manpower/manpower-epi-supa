@@ -7,21 +7,52 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ─── Dados Estáticos (Mantidos no Código) ─────────────────────────────────────
+// ─── Tabela de Configuração de Stocks Mínimos (Imagem Fornecida) ──────────────
+const MINIMUM_STOCKS = {
+  // Sapatos Gama Alta
+  "pr1_35": 0, "pr1_36": 2, "pr1_37": 4, "pr1_38": 4, "pr1_39": 4, "pr1_40": 4, "pr1_41": 4, "pr1_42": 4, "pr1_43": 4, "pr1_44": 3, "pr1_45": 2, "pr1_46": 1,
+  // Sapatos Gama Baixa
+  "pr2_35": 0, "pr2_36": 1, "pr2_37": 2, "pr2_38": 2, "pr2_39": 2, "pr2_40": 2, "pr2_41": 2, "pr2_42": 2, "pr2_43": 2, "pr2_44": 2, "pr2_45": 1, "pr2_46": 1,
+  // T-shirt Preta
+  "pr3_XS": 0, "pr3_S": 10, "pr3_M": 10, "pr3_L": 10, "pr3_XL": 10, "pr3_XXL": 0,
+  // Luva Nylon
+  "pr4_5": 0, "pr4_6": 0, "pr4_7": 10, "pr4_8": 10, "pr4_9": 10, "pr4_10": 0,
+  // Colete Refletor
+  "pr5_XS": 0, "pr5_S": 5, "pr5_M": 5, "pr5_L": 5, "pr5_XL": 5, "pr5_XXL": 5,
+  // Casaco Polar
+  "pr6_S": 4, "pr6_M": 4, "pr6_L": 4, "pr6_XL": 4, "pr6_XXL": 2,
+  // Polo Alta Visibilidade
+  "pr7_S": 10, "pr7_M": 10, "pr7_L": 10, "pr7_XL": 10, "pr7_XXL": 10,
+  // Sweat Preta
+  "pr8_XS": 10, "pr8_S": 15, "pr8_M": 30, "pr8_L": 10, "pr8_XL": 10, "pr8_XXL": 0,
+  // Kispo Preto
+  "pr9_XS": 0, "pr9_S": 3, "pr9_M": 3, "pr9_L": 3, "pr9_XL": 3, "pr9_XXL": 3,
+  // Kispo Refletor
+  "pr10_XS": 0, "pr10_S": 0, "pr10_M": 0, "pr10_L": 0, "pr10_XL": 0, "pr10_XXL": 0,
+  // Calças
+  "pr11_S": 5, "pr11_M": 5, "pr11_L": 5, "pr11_XL": 5, "pr11_XXL": 5,
+  // Colete Preto
+  "pr12_S": 0, "pr12_M": 0, "pr12_L": 0, "pr12_XL": 0, "pr12_XXL": 0,
+  // Colete Eletricista
+  "pr13_S": 0, "pr13_M": 0, "pr13_L": 0, "pr13_XL": 0, "pr13_XXL": 0,
+};
+
+// ─── Dados Estáticos ──────────────────────────────────────────────────────────
 const defaultData = {
   products: [
-    { id: "pr1", name: "Sapatos Gar", category: "Calçado", sizes: ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46"] },
-    { id: "pr2", name: "T-shirt Preta", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
-    { id: "pr3", name: "Luva Nylon", category: "Luvas", sizes: ["5", "6", "7", "8", "9", "10"] },
-    { id: "pr4", name: "Colete Refletor", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
-    { id: "pr5", name: "Casaco Polar", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
-    { id: "pr6", name: "Polo Alta Visibilidade", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
-    { id: "pr7", name: "Sweat Preta", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
-    { id: "pr8", name: "Kispo Preto", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
-    { id: "pr9", name: "Kispo Refletor", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
-    { id: "pr10", name: "Calças", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
-    { id: "pr11", name: "Colete Preto", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
-    { id: "pr12", name: "Colete Eletrónico", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
+    { id: "pr1", name: "Sapatos Gama Alta", category: "Calçado", sizes: ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46"] },
+    { id: "pr2", name: "Sapatos Gama Baixa", category: "Calçado", sizes: ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46"] },
+    { id: "pr3", name: "T-shirt Preta", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
+    { id: "pr4", name: "Luva Nylon", category: "Luvas", sizes: ["5", "6", "7", "8", "9", "10"] },
+    { id: "pr5", name: "Colete Refletor", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
+    { id: "pr6", name: "Casaco Polar", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
+    { id: "pr7", name: "Polo Alta Visibilidade", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
+    { id: "pr8", name: "Sweat Preta", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
+    { id: "pr9", name: "Kispo Preto", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
+    { id: "pr10", name: "Kispo Refletor", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
+    { id: "pr11", name: "Calças", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
+    { id: "pr12", name: "Colete Preto", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
+    { id: "pr13", name: "Colete Eletricista", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
   ],
   clients: [
     { id: "cl1", name: "P000542 VESTAS (PORTUGAL) SERVIÇOS DE TECNOLOGIA EÓLICA, LDA" },
@@ -93,7 +124,10 @@ const Icon = ({ name, size = 16 }) => {
     trash: "M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",
     x: "M18 6L6 18M6 6l12 12",
     check: "M20 6L9 17l-5-5",
-    download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4M7 10l5 5 5-5M12 15V3"
+    download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4M7 10l5 5 5-5M12 15V3",
+    chevronDown: "M6 9l6 6 6-6",
+    chevronUp: "M18 15l-6-6-6 6",
+    alert: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"
   };
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -142,6 +176,9 @@ export default function App() {
   const [tab, setTab] = useState("stock");
   const [modal, setModal] = useState(null);
   const [toast, setToast] = useState(null);
+  const [confirmModal, setConfirmModal] = useState(null);
+
+  const [expandedProducts, setExpandedProducts] = useState({});
 
   // Estado do Carrinho
   const [cartType, setCartType] = useState("exit"); 
@@ -149,7 +186,6 @@ export default function App() {
   const [cartItems, setCartItems] = useState([]); 
   const [tempItem, setTempItem] = useState({ productId: "", size: "", qty: 1 });
 
-  // Carregar dados iniciais da Nuvem (Supabase)
   useEffect(() => {
     fetchCloudData();
   }, []);
@@ -157,7 +193,6 @@ export default function App() {
   const fetchCloudData = async () => {
     setLoading(true);
     try {
-      // 1. Ir buscar o Histórico ordenado por data mais recente
       const { data: cloudMovements, error: mError } = await supabase
         .from("historico")
         .select("*")
@@ -165,20 +200,17 @@ export default function App() {
 
       if (mError) throw mError;
 
-      // 2. Ir buscar o Inventário/Stock total consolidado
       const { data: cloudEquipamentos, error: eError } = await supabase
         .from("equipamentos")
         .select("*");
 
       if (eError) throw eError;
 
-      // Converter array de equipamentos do Supabase para o formato de objeto { pId_size: qtd } da App
       const stockObj = {};
       cloudEquipamentos.forEach((item) => {
         stockObj[item.categoria] = item.quantidade_disponivel;
       });
 
-      // Reconstruir dinamicamente os movimentos a partir dos registos JSON em 'operador'
       const formattedMovements = cloudMovements.map(m => {
         try {
           const meta = JSON.parse(m.operador);
@@ -222,20 +254,46 @@ export default function App() {
   const getProduct = (id) => defaultData.products.find(p => p.id === id);
   const getClient = (id) => defaultData.clients.find(c => c.id === id);
 
+  const toggleExpand = (productId) => {
+    setExpandedProducts(prev => ({
+      ...prev,
+      [productId]: !prev[productId]
+    }));
+  };
+
   const addToCart = () => {
     if (!tempItem.productId || !tempItem.size || tempItem.qty < 1) {
       showToast("Preencha todos os campos do item", false);
       return;
     }
-    setCartItems([...cartItems, { ...tempItem, id: uid() }]);
+
+    const mQty = Number(tempItem.qty);
+
+    if (cartType === "exit") {
+      const key = stockKey(tempItem.productId, tempItem.size);
+      const currentQty = Number(stock[key] || 0);
+
+      if (mQty > currentQty) {
+        setConfirmModal({
+          title: "Stock Insuficiente Detetado",
+          message: `Não existe stock suficiente para adicionar ${mQty} un. de ${getProduct(tempItem.productId).name} (${tempItem.size}). Atualmente existem apenas ${currentQty} un. Pretende continuar com saldo negativo?`
+        });
+        return; 
+      }
+    }
+
+    executeAddToCart(tempItem, mQty);
+  };
+
+  const executeAddToCart = (item, quantity) => {
+    setCartItems([...cartItems, { ...item, qty: quantity, id: uid() }]);
     setTempItem({ productId: "", size: "", qty: 1 });
+    setConfirmModal(null);
   };
 
   const removeFromCart = (id) => setCartItems(cartItems.filter(i => i.id !== id));
 
-  // Gravar movimentos e atualizar Stock na nuvem em tempo real
   const processBatch = async () => {
-    // CORRECÇÃO: Só obriga a escolher cliente se for uma SAÍDA (Consumo)
     if (cartType === "exit" && !cartClient) { 
       showToast("Selecione o Cliente Relacionado", false); 
       return; 
@@ -248,17 +306,9 @@ export default function App() {
     try {
       for (const item of cartItems) {
         const key = stockKey(item.productId, item.size);
-        const currentQty = stock[key] || 0;
-
-        if (cartType === "exit" && item.qty > currentQty) {
-          showToast(`Stock insuficiente: ${getProduct(item.productId).name} (${item.size})`, false);
-          setLoading(false);
-          return;
-        }
-
+        const currentQty = Number(stock[key] || 0);
         const finalQty = cartType === "entry" ? currentQty + Number(item.qty) : currentQty - Number(item.qty);
 
-        // 1. Atualizar ou Inserir o registo de stock no Supabase
         const { data: existingStock } = await supabase
           .from("equipamentos")
           .select("id")
@@ -280,8 +330,6 @@ export default function App() {
             }]);
         }
 
-        // 2. Registar o Movimento no Histórico do Supabase
-        // CORRECÇÃO: Se for entrada, guardamos clientId como "armazem"
         const metaDados = JSON.stringify({
           productId: item.productId,
           size: item.size,
@@ -324,7 +372,7 @@ export default function App() {
     
     let hasStock = false;
     Object.entries(stock).forEach(([key, qty]) => {
-      if (qty > 0) {
+      if (qty !== 0) {
         const [pId, size] = key.split("_");
         const p = getProduct(pId);
         content += `- ${p?.name || "Desconhecido"} (Tam: ${size}): ${qty} un.\n`;
@@ -364,6 +412,38 @@ export default function App() {
     showToast("Relatório Diário descarregado!");
   };
 
+  // ─── Processar Inventário Agrupado e Ordenado Alfabeticamente ─────────────────
+  const sortedProductsWithStock = defaultData.products
+    .map(product => {
+      const sizeStock = product.sizes.map(size => {
+        const key = stockKey(product.id, size);
+        const currentQty = Number(stock[key] || 0);
+        const minStock = MINIMUM_STOCKS[key] !== undefined ? MINIMUM_STOCKS[key] : 0;
+        return { size, qty: currentQty, minStock, isBelowMin: currentQty < minStock };
+      });
+      const totalQty = sizeStock.reduce((acc, curr) => acc + curr.qty, 0);
+      const hasAnySizeBelowMin = sizeStock.some(s => s.isBelowMin);
+      return { ...product, sizeStock, totalQty, hasAnySizeBelowMin };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name, "pt", { sensitivity: "base" }));
+
+  // ─── Filtrar Apenas Itens com Rutura ou Abaixo de Stock Mínimo ─────────────────
+  const lowStockItems = [];
+  sortedProductsWithStock.forEach(p => {
+    p.sizeStock.forEach(s => {
+      if (s.isBelowMin) {
+        lowStockItems.push({
+          productId: p.id,
+          name: p.name,
+          category: p.category,
+          size: s.size,
+          currentQty: s.qty,
+          minQty: s.minStock
+        });
+      }
+    });
+  });
+
   return (
     <div style={{ minHeight: "100vh", background: "#f8fafc", color: "#334155", fontFamily: "system-ui, -apple-system, sans-serif" }}>
       <style>{`
@@ -372,12 +452,27 @@ export default function App() {
         button { cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
         button:disabled { opacity: 0.4; cursor: not-allowed; }
         .mobile-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 8px; }
+        .inventory-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 8px; background: #f8fafc; border: 1px solid #edf2f7; font-size: 14px; }
         .toast { position: fixed; bottom: 20px; left: 16px; right: 16px; padding: 14px 20px; border-radius: 10px; color: white; z-index: 1000; font-weight: bold; text-align: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15); font-size: 14px; }
       `}</style>
 
       {toast && <div className="toast" style={{ background: toast.ok ? "#77a28f" : "#cf4551" }}>{toast.msg}</div>}
 
-      {/* Header Mobile-First */}
+      {confirmModal && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div style={{ background: "#ffffff", borderRadius: 16, width: "100%", maxWidth: 400, padding: 20, boxShadow: "0 20px 25px -5px rgba(0,0,0,0.2)", display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ fontSize: 32, textAlign: "center" }}>⚠️</div>
+            <h3 style={{ margin: 0, fontSize: 16, fontWeight: "bold", color: "#1e293b", textAlign: "center" }}>{confirmModal.title}</h3>
+            <p style={{ margin: 0, fontSize: 14, color: "#475569", lineHeight: "1.5", textAlign: "center" }}>{confirmModal.message}</p>
+            <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
+              <button onClick={() => setConfirmModal(null)} style={{ flex: 1, padding: "12px", borderRadius: 8, border: "1px solid #cbd5e1", background: "#f8fafc", color: "#475569", fontWeight: "bold", fontSize: 13 }}>NÃO (Corrigir)</button>
+              <button onClick={() => executeAddToCart(tempItem, Number(tempItem.qty))} style={{ flex: 1, padding: "12px", borderRadius: 8, border: "none", background: "#cf4551", color: "white", fontWeight: "bold", fontSize: 13 }}>SIM (Continuar)</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
       <header style={{ padding: "12px 16px", background: "#ffffff", borderBottom: "1px solid #e2e8f0", display: "flex", flexDirection: "column", gap: 12, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -388,100 +483,134 @@ export default function App() {
             </div>
           </div>
           <div style={{ display: "flex", gap: 6 }}>
-            <button 
-              onClick={fetchCloudData}
-              disabled={loading}
-              style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}
-              title="Sincronizar dados"
-            >
-              🔄
-            </button>
-            <button 
-              onClick={exportDailyReport}
-              style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}
-              title="Exportar Relatório"
-            >
-              <Icon name="download" size={18} />
-            </button>
+            <button onClick={fetchCloudData} disabled={loading} style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Sincronizar dados">🔄</button>
+            <button onClick={exportDailyReport} style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Exportar Relatório"><Icon name="download" size={18} /></button>
           </div>
         </div>
-
-        <button 
-          onClick={() => setModal("movement")}
-          disabled={loading}
-          style={{ background: "#3882b4", color: "white", border: "none", padding: "12px 16px", borderRadius: 10, fontWeight: "bold", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 4px 6px rgba(56,130,180,0.15)" }}
-        >
-          <Icon name="plus" size={18} /> NOVO REGISTO DE MOVIMENTO
-        </button>
+        <button onClick={() => setModal("movement")} disabled={loading} style={{ background: "#3882b4", color: "white", border: "none", padding: "12px 16px", borderRadius: 10, fontWeight: "bold", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 4px 6px rgba(56,130,180,0.15)" }}><Icon name="plus" size={18} /> NOVO REGISTO DE MOVIMENTO</button>
       </header>
 
-      {/* Tabs */}
+      {/* Tabs / Menu de Páginas (Agora com 3 Abas) */}
       <nav style={{ display: "flex", background: "#ffffff", borderBottom: "1px solid #e2e8f0" }}>
-        <button onClick={() => setTab("stock")} style={{ flex: 1, padding: "14px 8px", background: "none", border: "none", borderBottom: tab === "stock" ? "3px solid #3882b4" : "3px solid transparent", color: tab === "stock" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 12, textAlign: "center" }}>INVENTÁRIO</button>
-        <button onClick={() => setTab("movements")} style={{ flex: 1, padding: "14px 8px", background: "none", border: "none", borderBottom: tab === "movements" ? "3px solid #3882b4" : "3px solid transparent", color: tab === "movements" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 12, textAlign: "center" }}>HISTÓRICO ({movements.length})</button>
+        <button onClick={() => setTab("stock")} style={{ flex: 1, padding: "14px 4px", background: "none", border: "none", borderBottom: tab === "stock" ? "3px solid #3882b4" : "3px solid transparent", color: tab === "stock" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 11, textAlign: "center" }}>INVENTÁRIO</button>
+        <button onClick={() => setTab("min_stock")} style={{ flex: 1, padding: "14px 4px", background: "none", border: "none", borderBottom: tab === "min_stock" ? "3px solid #e98315" : "3px solid transparent", color: tab === "min_stock" ? "#e98315" : "#64748b", fontWeight: "bold", fontSize: 11, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
+          STOCK MÍNIMO 
+          {lowStockItems.length > 0 && (
+            <span style={{ background: "#cf4551", color: "white", borderRadius: "10px", padding: "1px 6px", fontSize: 10 }}>{lowStockItems.length}</span>
+          )}
+        </button>
+        <button onClick={() => setTab("movements")} style={{ flex: 1, padding: "14px 4px", background: "none", border: "none", borderBottom: tab === "movements" ? "3px solid #3882b4" : "3px solid transparent", color: tab === "movements" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 11, textAlign: "center" }}>HISTÓRICO ({movements.length})</button>
       </nav>
 
-      {/* Indicador de Loading Cloud */}
       {loading && <div style={{ background: "#e0f2fe", color: "#0369a1", fontSize: 12, padding: "6px 12px", textAlign: "center", fontWeight: "600" }}>A atualizar dados com a nuvem...</div>}
 
       {/* Conteúdo Principal */}
       <main style={{ padding: 14, maxWidth: 600, margin: "0 auto" }}>
+        
+        {/* ABA 1: INVENTÁRIO GERAL */}
         {tab === "stock" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {Object.entries(stock).filter(([_, qty]) => qty > 0).length === 0 ? (
-              <div className="mobile-card" style={{ padding: 32, textAlign: "center", color: "#94a3b8", justifyContent: "center" }}>
-                Nenhum EPI em armazém atualmente. Carregue em "Novo Registo" para dar entrada.
-              </div>
-            ) : (
-              Object.entries(stock).map(([key, qty]) => {
-                if (qty === 0) return null;
-                const [pId, size] = key.split("_");
-                const p = getProduct(pId);
-                return (
-                  <div key={key} className="mobile-card" style={{ borderLeft: qty < 5 ? "4px solid #e98315" : "4px solid #3882b4" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <span style={{ fontSize: 15, fontWeight: "600", color: "#1e293b", maxWidth: "75%", wordBreak: "break-word" }}>{p?.name}</span>
-                      <span style={{ background: "#e2e8f0", color: "#334155", padding: "4px 10px", borderRadius: 20, fontSize: 12, fontWeight: "bold" }}>{size}</span>
+            {sortedProductsWithStock.map(p => {
+              const isExpanded = !!expandedProducts[p.id];
+              const borderLeftColor = p.hasAnySizeBelowMin ? "4px solid #cf4551" : "4px solid #3882b4";
+
+              return (
+                <div key={p.id} className="mobile-card" style={{ borderLeft: borderLeftColor, cursor: "pointer", padding: "14px 16px" }} onClick={() => toggleExpand(p.id)}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontSize: 15, fontWeight: "600", color: "#1e293b", display: "flex", alignItems: "center", gap: 6 }}>
+                        {p.name}
+                        {p.hasAnySizeBelowMin && <span style={{ color: "#cf4551", fontSize: 12, display: "flex", alignItems: "center" }} title="Alerta: Tamanho abaixo do mínimo!"><Icon name="alert" size={14} /></span>}
+                      </div>
+                      <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>{p.category}</div>
                     </div>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 4 }}>
-                      <span style={{ fontSize: 12, color: "#64748b" }}>{p?.category || "Geral"}</span>
-                      <span style={{ fontWeight: "700", fontSize: 15, color: qty < 5 ? "#e98315" : "#3882b4" }}>{qty} un. disponíveis</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <span style={{ fontWeight: "700", fontSize: 14, color: p.hasAnySizeBelowMin ? "#cf4551" : "#3882b4" }}>
+                        {p.totalQty} un. total
+                      </span>
+                      <span style={{ color: "#94a3b8" }}><Icon name={isExpanded ? "chevronUp" : "chevronDown"} size={18} /></span>
                     </div>
                   </div>
-                );
-              })
-            )}
+
+                  {isExpanded && (
+                    <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px dashed #e2e8f0", display: "flex", flexDirection: "column", gap: 6 }} onClick={(e) => e.stopPropagation()}>
+                      {p.sizeStock.map(item => (
+                        <div key={item.size} className="inventory-row" style={{ border: item.isBelowMin ? "1px solid #fecaca" : "1px solid #edf2f7", background: item.isBelowMin ? "#fff5f5" : "#f8fafc" }}>
+                          <span style={{ fontWeight: "600", color: "#475569" }}>Tamanho {item.size}</span>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span style={{ fontSize: 11, color: "#64748b" }}>Mín: {item.minStock}</span>
+                            <span style={{ fontWeight: "700", color: item.isBelowMin ? "#cf4551" : "#1e293b" }}>
+                              {item.qty} un. {item.isBelowMin && "⚠️"}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
 
-        {tab === "movements" && (
+        {/* ABA 2: NOVA PÁGINA DE STOCK MÍNIMO */}
+        {tab === "min_stock" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {movements.length === 0 ? (
-              <div className="mobile-card" style={{ padding: 32, textAlign: "center", color: "#94a3b8" }}>Nenhum movimento registado na nuvem.</div>
+            <div style={{ background: "#fff7ed", border: "1px solid #ffedd5", padding: "12px", borderRadius: "10px", fontSize: "13px", color: "#c2410c", fontWeight: "500", display: "flex", gap: 8, alignItems: "center" }}>
+              <Icon name="alert" size={18} />
+              <span>Abaixo são listados todos os EPI's cujo stock atual é <b>igual ou inferior</b> ao mínimo estipulado.</span>
+            </div>
+            
+            {lowStockItems.length === 0 ? (
+              <div className="mobile-card" style={{ padding: 40, textAlign: "center", color: "#77a28f", borderLeft: "4px solid #77a28f" }}>
+                🎉 Excelente! Todos os artigos encontram-se acima do stock mínimo de segurança.
+              </div>
             ) : (
-              movements.map(m => (
-                <div key={m.id} className="mobile-card" style={{ borderLeft: m.type === "entry" ? "4px solid #77a28f" : "4px solid #cf4551" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div style={{ fontWeight: "600", fontSize: 14, color: "#1e293b" }}>
-                      {getProduct(m.productId)?.name} <span style={{ color: "#64748b", fontWeight: "normal" }}>(Tam: {m.size})</span>
+              lowStockItems.map((item, idx) => (
+                <div key={idx} className="mobile-card" style={{ borderLeft: "4px solid #e98315", background: "#ffffff" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontSize: 15, fontWeight: "600", color: "#1e293b" }}>{item.name}</div>
+                      <div style={{ fontSize: 12, color: "#e98315", fontWeight: "600", marginTop: 2 }}>Tamanho: {item.size} • <span style={{ color: "#64748b", fontWeight: "normal" }}>{item.category}</span></div>
                     </div>
-                    <div style={{ fontWeight: "bold", fontSize: 16, color: m.type === "entry" ? "#77a28f" : "#cf4551" }}>
-                      {m.type === "entry" ? "+" : "-"}{m.qty}
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 15, fontWeight: "800", color: "#cf4551" }}>{item.currentQty} un.</div>
+                      <div style={{ fontSize: 11, color: "#64748b" }}>Necessário: ≥ {item.minQty}</div>
                     </div>
                   </div>
-                  <div style={{ fontSize: 12, color: "#64748b", display: "flex", flexDirection: "column", gap: 2 }}>
-                    <div>
-                      {m.type === "exit" ? "Destino: " : "Origem: "}
-                      {/* CORRECÇÃO: Apresenta Armazém Central nas Entradas */}
-                      <b style={{ color: "#475569" }}>
-                        {m.clientId === "armazem" ? "Armazém Central" : (getClient(m.clientId)?.name?.split(" ")[0] || "N/A")} ...
-                      </b>
-                    </div>
-                    <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{fmtDate(m.date)} • {m.type === "entry" ? "Reposição" : "Consumo"}</div>
+                  <div style={{ background: "#fff5f5", borderRadius: "6px", padding: "6px 10px", fontSize: "11px", color: "#cf4551", fontWeight: "bold", textAlign: "center", marginTop: 4 }}>
+                    Faltam pedir pelo menos: {item.minQty - item.currentQty} un. para atingir o limite.
                   </div>
                 </div>
               ))
             )}
+          </div>
+        )}
+
+        {/* ABA 3: HISTÓRICO DE MOVIMENTOS */}
+        {tab === "movements" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {movements.map(m => (
+              <div key={m.id} className="mobile-card" style={{ borderLeft: m.type === "entry" ? "4px solid #77a28f" : "4px solid #cf4551" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ fontWeight: "600", fontSize: 14, color: "#1e293b" }}>
+                    {getProduct(m.productId)?.name} <span style={{ color: "#64748b", fontWeight: "normal" }}>(Tam: {m.size})</span>
+                  </div>
+                  <div style={{ fontWeight: "bold", fontSize: 16, color: m.type === "entry" ? "#77a28f" : "#cf4551" }}>
+                    {m.type === "entry" ? "+" : "-"}{m.qty}
+                  </div>
+                </div>
+                <div style={{ fontSize: 12, color: "#64748b", display: "flex", flexDirection: "column", gap: 2 }}>
+                  <div>
+                    {m.type === "exit" ? "Destino: " : "Origem: "}
+                    <b style={{ color: "#475569" }}>
+                      {m.clientId === "armazem" ? "Armazém Central" : (getClient(m.clientId)?.name?.split(" ")[0] || "N/A")} ...
+                    </b>
+                  </div>
+                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{fmtDate(m.date)} • {m.type === "entry" ? "Reposição" : "Consumo"}</div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </main>
@@ -490,17 +619,10 @@ export default function App() {
       {modal === "movement" && (
         <Modal title="Registar Movimento de EPI's" onClose={() => setModal(null)}>
           <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-            <button 
-              onClick={() => { setCartType("exit"); setCartItems([]); }}
-              style={{ flex: 1, padding: 12, borderRadius: 8, border: "none", background: cartType === "exit" ? "#cf4551" : "#e2e8f0", color: cartType === "exit" ? "white" : "#475569", fontWeight: "bold", fontSize: 12 }}
-            >SAÍDA (Consumo)</button>
-            <button 
-              onClick={() => { setCartType("entry"); setCartItems([]); }}
-              style={{ flex: 1, padding: 12, borderRadius: 8, border: "none", background: cartType === "entry" ? "#77a28f" : "#e2e8f0", color: cartType === "entry" ? "white" : "#475569", fontWeight: "bold", fontSize: 12 }}
-            >ENTRADA (Aumento)</button>
+            <button onClick={() => { setCartType("exit"); setCartItems([]); }} style={{ flex: 1, padding: 12, borderRadius: 8, border: "none", background: cartType === "exit" ? "#cf4551" : "#e2e8f0", color: cartType === "exit" ? "white" : "#475569", fontWeight: "bold", fontSize: 12 }}>SAÍDA (Consumo)</button>
+            <button onClick={() => { setCartType("entry"); setCartItems([]); }} style={{ flex: 1, padding: 12, borderRadius: 8, border: "none", background: cartType === "entry" ? "#77a28f" : "#e2e8f0", color: cartType === "entry" ? "white" : "#475569", fontWeight: "bold", fontSize: 12 }}>ENTRADA (Aumento)</button>
           </div>
 
-          {/* CORRECÇÃO: O campo do Cliente agora só aparece se for uma SAÍDA */}
           {cartType === "exit" && (
             <div style={{ marginBottom: 16 }}>
               <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Cliente / Contrato Destinatário</label>
@@ -513,7 +635,6 @@ export default function App() {
 
           <div style={{ background: "#ffffff", padding: 14, borderRadius: 10, border: "1px solid #cbd5e1", marginBottom: 16 }}>
             <h4 style={{ fontSize: 12, fontWeight: "700", marginBottom: 10, color: "#3882b4", textTransform: "uppercase", margin: 0 }}>Adicionar ao Lote</h4>
-            
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 6 }}>
               <div>
                 <label style={{ fontSize: 11, color: "#64748b" }}>Produto</label>
@@ -522,7 +643,6 @@ export default function App() {
                   {defaultData.products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
               </div>
-              
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 <div>
                   <label style={{ fontSize: 11, color: "#64748b" }}>Tamanho</label>
@@ -537,36 +657,27 @@ export default function App() {
                 </div>
               </div>
             </div>
-
-            <button onClick={addToCart} style={{ width: "100%", background: "#334155", color: "white", border: "none", padding: 12, borderRadius: 8, marginTop: 12, fontWeight: "600", fontSize: 13 }}>
-              + Incluir no Lote
-            </button>
+            <button onClick={addToCart} style={{ width: "100%", background: "#334155", color: "white", border: "none", padding: 12, borderRadius: 8, marginTop: 12, fontWeight: "600", fontSize: 13 }}>+ Incluir no Lote</button>
           </div>
 
           {cartItems.length > 0 && (
             <div style={{ marginBottom: 16 }}>
               <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Lista de Confirmação ({cartItems.length})</label>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 6, maxHeight: "160px", overflowY: "auto" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 6 }}>
                 {cartItems.map(item => (
-                  <div key={item.id} style={{ background: "#f1f5f9", padding: "10px 12px", borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid #e2e8f0" }}>
-                    <span style={{ fontSize: 13, color: "#1e293b" }}>
-                      {getProduct(item.productId)?.name} — <b>{item.size}</b> (x{item.qty})
-                    </span>
-                    <button onClick={() => removeFromCart(item.id)} style={{ background: "none", border: "none", color: "#cf4551", padding: 6 }}><Icon name="trash" size={16} /></button>
+                  <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#ffffff", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1" }}>
+                    <div style={{ fontSize: 13 }}>
+                      <b>{getProduct(item.productId)?.name}</b> (Tam: {item.size}) - <b>{item.qty} un.</b>
+                    </div>
+                    <button onClick={() => removeFromCart(item.id)} style={{ border: "none", background: "none", color: "#cf4551" }}><Icon name="trash" size={16} /></button>
                   </div>
                 ))}
               </div>
+              <button onClick={processBatch} style={{ width: "100%", background: cartType === "entry" ? "#77a28f" : "#cf4551", color: "white", border: "none", padding: 14, borderRadius: 10, marginTop: 16, fontWeight: "bold", fontSize: 14, boxShadow: "0 4px 6px rgba(0,0,0,0.05)" }}>
+                Sincronizar Lote no Supabase
+              </button>
             </div>
           )}
-
-          {/* CORRECÇÃO: O botão já não bloqueia por falta de cliente se o tipo for "entry" */}
-          <button 
-            onClick={processBatch}
-            disabled={cartItems.length === 0 || (cartType === "exit" && !cartClient) || loading}
-            style={{ width: "100%", padding: 14, borderRadius: 10, border: "none", background: cartType === "entry" ? "#77a28f" : "#3882b4", color: "white", fontWeight: "bold", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}
-          >
-            <Icon name="check" size={18} /> {loading ? "A SINCRONIZAR..." : "SUBMETER MOVIMENTO"}
-          </button>
         </Modal>
       )}
     </div>
