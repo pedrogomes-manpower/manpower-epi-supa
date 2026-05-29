@@ -383,8 +383,8 @@ export default function App() {
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <ManpowerLogoHeader />
             <div style={{ borderLeft: "1px solid #cbd5e1", paddingLeft: 8 }}>
-              <h1 style={{ fontSize: 12, fontWeight: "900", color: "#3882b4", letterSpacing: "-0.2px", margin: 0 }}>INDÚSTRIA</h1>
-              <p style={{ fontSize: 10, color: "#64748b", margin: 0, fontWeight: "600" }}>Gestão Nuvem EPI</p>
+              <h1 style={{ fontSize: 12, fontWeight: "900", color: "#3882b4", letterSpacing: "-0.2px", margin: 0 }}>INDÚSTRIA E LOGÍSTICA</h1>
+              <p style={{ fontSize: 10, color: "#64748b", margin: 0, fontWeight: "600" }}>Gestão EPI</p>
             </div>
           </div>
           <div style={{ display: "flex", gap: 6 }}>
