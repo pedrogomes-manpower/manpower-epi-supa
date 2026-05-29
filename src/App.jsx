@@ -346,7 +346,7 @@ export default function App() {
           }]);
       }
 
-      showToast(`Movimento sincronizado com sucesso!`);
+      showToast(`Submetido com sucesso!`);
       setModal(null);
       setCartItems([]);
       setCartClient("");
@@ -674,7 +674,7 @@ export default function App() {
                 ))}
               </div>
               <button onClick={processBatch} style={{ width: "100%", background: cartType === "entry" ? "#77a28f" : "#cf4551", color: "white", border: "none", padding: 14, borderRadius: 10, marginTop: 16, fontWeight: "bold", fontSize: 14, boxShadow: "0 4px 6px rgba(0,0,0,0.05)" }}>
-                Sincronizar Lote no Supabase
+                Submeter Movimento
               </button>
             </div>
           )}
