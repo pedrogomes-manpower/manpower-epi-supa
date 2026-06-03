@@ -137,22 +137,33 @@ const Icon = ({ name, size = 16 }) => {
 };
 
 const ManpowerLogoHeader = () => (
-  <svg width="130" height="32" viewBox="0 0 520 120" style={{ flexShrink: 0 }}>
-    <g id="manpower-symbol">
-      <rect x="50" y="52" width="16" height="56" rx="8" transform="rotate(-15 58 80)" fill="#418ab3" />
-      <rect x="76" y="52" width="16" height="56" rx="8" transform="rotate(-15 84 80)" fill="#6faad0" />
-      <rect x="102" y="52" width="16" height="56" rx="8" transform="rotate(-15 110 80)" fill="#7ca693" />
-      <rect x="127" y="42" width="16" height="68" rx="8" transform="rotate(-15 135 76)" fill="#d14b59" />
-      <rect x="151" y="43" width="16" height="48" rx="8" transform="rotate(-15 159 67)" fill="#e88b24" />
-    </g>
-    <text x="195" y="88" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="64" fontWeight="400" fill="#367fa9" letterSpacing="-1.5">
-      Manpower
-    </text>
-    <text x="498" y="46" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="14" fontWeight="bold" fill="#367fa9">
-      ®
-    </text>
-  </svg>
-);
+	<svg width="150" height="42" viewBox="0 0 540 150" style={{ flexShrink: 0 }}>
+	  {/* 1. BARRAS COLORIDAS (Dimensionadas e alinhadas com o texto) */}
+	  <g id="manpower-symbol" transform="translate(15, 6) scale(1.15)">
+		<rect x="10" y="52" width="16" height="56" rx="8" transform="rotate(15 18 80)" fill="#1c75bc" />
+		<rect x="36" y="52" width="16" height="56" rx="8" transform="rotate(15 44 80)" fill="#5091cd" />
+		<rect x="62" y="52" width="16" height="56" rx="8" transform="rotate(15 70 80)" fill="#508571" />
+		<rect x="87" y="42" width="16" height="68" rx="8" transform="rotate(15 95 76)" fill="#b63644" />
+		<rect x="111" y="43" width="16" height="48" rx="8" transform="rotate(15 119 67)" fill="#e57e25" />
+	  </g>
+  
+	  {/* 2. BLOCO DE TEXTO */}
+	  <g id="manpower-text">
+		{/* Palavra Manpower principal */}
+		<text x="185" y="80" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="60" fontWeight="400" fill="#005fa9" letterSpacing="-1">
+		  Manpower
+		</text>
+		{/* Símbolo de Marca Registada colado ao final do texto */}
+		<text x="460" y="45" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="18" fontWeight="bold" fill="#005fa9">
+		  ®
+		</text>
+		{/* Subtexto TBO a Cinzento, alinhado por baixo da palavra principal */}
+		<text x="190" y="132" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="46" fontWeight="400" fill="#71797E" letterSpacing="1">
+		  TBO
+		</text>
+	  </g>
+	</svg>
+  );
 
 function Modal({ title, onClose, children }) {
   return (
