@@ -137,7 +137,7 @@ const Icon = ({ name, size = 16 }) => {
 };
 
 const ManpowerLogoHeader = () => (
-	<svg width="150" height="42" viewBox="0 0 540 150" style={{ flexShrink: 0 }}>
+	<svg width="130" height="42" viewBox="0 0 540 150" style={{ flexShrink: 0 }}>
 	  {/* 1. BARRAS COLORIDAS (Dimensionadas e alinhadas com o texto) */}
 	  <g id="manpower-symbol" transform="translate(15, 6) scale(1.15)">
 		<rect x="10" y="52" width="16" height="56" rx="8" transform="rotate(15 18 80)" fill="#1c75bc" />
