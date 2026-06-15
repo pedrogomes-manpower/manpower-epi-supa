@@ -7,13 +7,13 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ─── Tabela de Configuração de Stocks Mínimos (Imagem Fornecida) ──────────────
+/// ─── Tabela de Configuração de Stocks Mínimos (Imagem Fornecida) ──────────────
 const MINIMUM_STOCKS = {
   // Sapatos Gama Alta
   "pr1_35": 0, "pr1_36": 2, "pr1_37": 4, "pr1_38": 4, "pr1_39": 4, "pr1_40": 4, "pr1_41": 4, "pr1_42": 4, "pr1_43": 4, "pr1_44": 3, "pr1_45": 2, "pr1_46": 1,
   // Sapatos Gama Baixa
-  "pr2_35": 0, "pr2_36": 1, "pr2_37": 2, "pr2_38": 2, "pr2_39": 2, "pr2_40": 2, "pr2_41": 2, "pr2_42": 2, "pr2_43": 2, "pr2_44": 2, "pr2_45": 1, "pr2_46": 1,
-  // T-shirt Preta
+  "pr2_35": 0, "pr2_36": 1, "pr2_37": 2, "pr2_38": 2, "pr2_pm 9": 2, "pr2_40": 2, "pr2_41": 2, "pr2_42": 2, "pr2_43": 2, "pr2_44": 2, "pr2_45": 1, "pr2_46": 1,
+  // T-shirt
   "pr3_XS": 0, "pr3_S": 10, "pr3_M": 10, "pr3_L": 10, "pr3_XL": 10, "pr3_XXL": 0,
   // Luva Nylon
   "pr4_5": 0, "pr4_6": 0, "pr4_7": 10, "pr4_8": 10, "pr4_9": 10, "pr4_10": 0,
@@ -21,9 +21,9 @@ const MINIMUM_STOCKS = {
   "pr5_XS": 0, "pr5_S": 5, "pr5_M": 5, "pr5_L": 5, "pr5_XL": 5, "pr5_XXL": 5,
   // Casaco Polar
   "pr6_S": 4, "pr6_M": 4, "pr6_L": 4, "pr6_XL": 4, "pr6_XXL": 2,
-  // Polo Alta Visibilidade
+  // Polo/T-Shirt Alta Visibilidade
   "pr7_S": 10, "pr7_M": 10, "pr7_L": 10, "pr7_XL": 10, "pr7_XXL": 10,
-  // Sweat Preta
+  // Sweat
   "pr8_XS": 10, "pr8_S": 15, "pr8_M": 30, "pr8_L": 10, "pr8_XL": 10, "pr8_XXL": 0,
   // Kispo Preto
   "pr9_XS": 0, "pr9_S": 3, "pr9_M": 3, "pr9_L": 3, "pr9_XL": 3, "pr9_XXL": 3,
@@ -35,6 +35,8 @@ const MINIMUM_STOCKS = {
   "pr12_S": 0, "pr12_M": 0, "pr12_L": 0, "pr12_XL": 0, "pr12_XXL": 0,
   // Colete Eletricista
   "pr13_S": 0, "pr13_M": 0, "pr13_L": 0, "pr13_XL": 0, "pr13_XXL": 0,
+  // Luvas Tipo Chefe
+  "pr14_9": 0,
 };
 
 // ─── Dados Estáticos ──────────────────────────────────────────────────────────
@@ -42,17 +44,18 @@ const defaultData = {
   products: [
     { id: "pr1", name: "Sapatos Gama Alta", category: "Calçado", sizes: ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46"] },
     { id: "pr2", name: "Sapatos Gama Baixa", category: "Calçado", sizes: ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46"] },
-    { id: "pr3", name: "T-shirt Preta", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
+    { id: "pr3", name: "T-shirt", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
     { id: "pr4", name: "Luva Nylon", category: "Luvas", sizes: ["5", "6", "7", "8", "9", "10"] },
     { id: "pr5", name: "Colete Refletor", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
     { id: "pr6", name: "Casaco Polar", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
-    { id: "pr7", name: "Polo Alta Visibilidade", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
-    { id: "pr8", name: "Sweat Preta", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
+    { id: "pr7", name: "Polo/T-Shirt Alta Visibilidade", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
+    { id: "pr8", name: "Sweat", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
     { id: "pr9", name: "Kispo Preto", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
     { id: "pr10", name: "Kispo Refletor", category: "Fardamento", sizes: ["XS", "S", "M", "L", "XL", "XXL"] },
     { id: "pr11", name: "Calças", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
     { id: "pr12", name: "Colete Preto", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
     { id: "pr13", name: "Colete Eletricista", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
+    { id: "pr14", name: "Luvas Tipo Chefe", category: "Luvas", sizes: ["9"] },
   ],
   clients: [
     { id: "cl1", name: "P000542 VESTAS (PORTUGAL) SERVIÇOS DE TECNOLOGIA EÓLICA, LDA" },
