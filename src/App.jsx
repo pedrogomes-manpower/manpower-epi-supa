@@ -12,7 +12,7 @@ const MINIMUM_STOCKS = {
   // Sapatos Gama Alta
   "pr1_35": 0, "pr1_36": 2, "pr1_37": 4, "pr1_38": 4, "pr1_39": 4, "pr1_40": 4, "pr1_41": 4, "pr1_42": 4, "pr1_43": 4, "pr1_44": 3, "pr1_45": 2, "pr1_46": 1,
   // Sapatos Gama Baixa
-  "pr2_35": 0, "pr2_36": 1, "pr2_37": 2, "pr2_38": 2, "pr2_pm 9": 2, "pr2_40": 2, "pr2_41": 2, "pr2_42": 2, "pr2_43": 2, "pr2_44": 2, "pr2_45": 1, "pr2_46": 1,
+  "pr2_35": 0, "pr2_36": 1, "pr2_37": 2, "pr2_38": 2, "pr2_39": 2, "pr2_40": 2, "pr2_41": 2, "pr2_42": 2, "pr2_43": 2, "pr2_44": 2, "pr2_45": 1, "pr2_46": 1,
   // T-shirt
   "pr3_XS": 0, "pr3_S": 10, "pr3_M": 10, "pr3_L": 10, "pr3_XL": 10, "pr3_XXL": 0,
   // Luva Nylon
@@ -140,29 +140,32 @@ const Icon = ({ name, size = 16 }) => {
 };
 
 const ManpowerLogoHeader = () => (
-	<svg width="130" height="42" viewBox="0 0 540 150" style={{ flexShrink: 0 }}>
-	  {/* 1. BARRAS COLORIDAS */}
-	  <g id="manpower-symbol" transform="translate(15, 6) scale(1.15)">
-		<rect x="10" y="52" width="16" height="56" rx="8" transform="rotate(15 18 80)" fill="#1c75bc" />
-		<rect x="36" y="52" width="16" height="56" rx="8" transform="rotate(15 44 80)" fill="#5091cd" />
-		<rect x="62" y="52" width="16" height="56" rx="8" transform="rotate(15 70 80)" fill="#508571" />
-		<rect x="87" y="42" width="16" height="68" rx="8" transform="rotate(15 95 76)" fill="#b63644" />
-		<rect x="111" y="43" width="16" height="48" rx="8" transform="rotate(15 119 67)" fill="#e57e25" />
-	  </g>
-  
-	  {/* 2. BLOCO DE TEXTO */}
-	  <g id="manpower-text">
-		<text x="185" y="80" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="60" fontWeight="400" fill="#005fa9" letterSpacing="-1">
-		  Manpower
-		</text>
-		<text x="460" y="45" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="18" fontWeight="bold" fill="#005fa9">
-		  ®
-		</text>
-		<text x="190" y="132" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="46" fontWeight="400" fill="#71797E" letterSpacing="1">
-		  TBO
-		</text>
-	  </g>
-	</svg>
+  <svg width="130" height="42" viewBox="0 0 540 150" style={{ flexShrink: 0 }}>
+    {/* 1. BARRAS COLORIDAS (Dimensionadas e alinhadas com o texto) */}
+    <g id="manpower-symbol" transform="translate(15, 6) scale(1.15)">
+      <rect x="10" y="52" width="16" height="56" rx="8" transform="rotate(15 18 80)" fill="#1c75bc" />
+      <rect x="36" y="52" width="16" height="56" rx="8" transform="rotate(15 44 80)" fill="#5091cd" />
+      <rect x="62" y="52" width="16" height="56" rx="8" transform="rotate(15 70 80)" fill="#508571" />
+      <rect x="87" y="42" width="16" height="68" rx="8" transform="rotate(15 95 76)" fill="#b63644" />
+      <rect x="111" y="43" width="16" height="48" rx="8" transform="rotate(15 119 67)" fill="#e57e25" />
+    </g>
+    
+    {/* 2. BLOCO DE TEXTO */}
+    <g id="manpower-text">
+      {/* Palavra Manpower principal */}
+      <text x="185" y="80" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="60" fontWeight="400" fill="#005fa9" letterSpacing="-1">
+        Manpower
+      </text>
+      {/* Símbolo de Marca Registada colado ao final do texto */}
+      <text x="460" y="45" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="18" fontWeight="bold" fill="#005fa9">
+        ®
+      </text>
+      {/* Subtexto TBO a Cinzento, alinhado por baixo da palavra principal */}
+      <text x="190" y="132" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="46" fontWeight="400" fill="#71797E" letterSpacing="1">
+        TBO
+      </text>
+    </g>
+  </svg>
 );
 
 function Modal({ title, onClose, children }) {
@@ -188,6 +191,7 @@ export default function App() {
   const [modal, setModal] = useState(null);
   const [toast, setToast] = useState(null);
   const [confirmModal, setConfirmModal] = useState(null);
+
   const [expandedProducts, setExpandedProducts] = useState({});
 
   // Estado do Carrinho
@@ -263,6 +267,7 @@ export default function App() {
 
   const getProduct = (id) => defaultData.products.find(p => p.id === id);
   const getClient = (id) => defaultData.clients.find(c => c.id === id);
+
   const toggleExpand = (productId) => {
     setExpandedProducts(prev => ({
       ...prev,
@@ -369,7 +374,6 @@ export default function App() {
     }
   };
 
-  // Original: Exportar TXT do Relatório Diário de Atividades e Stock
   const exportDailyReport = () => {
     const todayStr = new Date().toLocaleDateString("pt-PT");
     let content = `==================================================\n`;
@@ -397,6 +401,7 @@ export default function App() {
     const todayMovements = movements.filter(m => {
       return new Date(m.date).toDateString() === new Date().toDateString();
     });
+
     if (todayMovements.length === 0) {
       content += `Nenhum movimento realizado na data de hoje.\n`;
     } else {
@@ -410,6 +415,7 @@ export default function App() {
 
     content += `\n==================================================\n`;
     content += `Fim do Relatório Corporativo.\n`;
+
     const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -420,9 +426,9 @@ export default function App() {
     showToast("Relatório Diário descarregado!");
   };
 
-  // Novo: Exportar Inventário Completo Estruturado diretamente para Excel (CSV)
+  // NOVO: Função para Exportar CSV
   const exportInventoryToCSV = () => {
-    let csvContent = "\uFEFF"; // Código UTF-8 BOM para garantir acentos perfeitos no Excel
+    let csvContent = "\uFEFF"; 
     csvContent += "Produto;Categoria;Tamanho;Quantidade Disponível;Stock Mínimo;Estado\n";
     
     sortedProductsWithStock.forEach(p => {
@@ -451,6 +457,7 @@ export default function App() {
         const minStock = MINIMUM_STOCKS[key] !== undefined ? MINIMUM_STOCKS[key] : 0;
         return { size, qty: currentQty, minStock, isBelowMin: currentQty < minStock };
       });
+    
       const totalQty = sizeStock.reduce((acc, curr) => acc + curr.qty, 0);
       const hasAnySizeBelowMin = sizeStock.some(s => s.isBelowMin);
       return { ...product, sizeStock, totalQty, hasAnySizeBelowMin };
@@ -468,25 +475,28 @@ export default function App() {
           category: p.category,
           size: s.size,
           currentQty: s.qty,
-          minStock: s.minStock,
-          missing: s.minStock - s.qty
+          minQty: s.minStock
         });
       }
     });
   });
 
   return (
-    <div style={{ background: "#f8fafc", minHeight: "100vh", paddingBottom: 80, fontFamily: "Inter, sans-serif" }}>
-      {/* Toast Alert */}
-      {toast && (
-        <div style={{ position: "fixed", top: 20, left: "50%", transform: "translateX(-50%)", background: toast.ok ? "#e2f0d9" : "#fce8e6", color: toast.ok ? "#385723" : "#a82a2a", padding: "12px 24px", borderRadius: 8, boxShadow: "0 4px 12px rgba(0,0,0,0.1)", zIndex: 110, fontSize: 13, fontWeight: "600", border: toast.ok ? "1px solid #bcdca3" : "1px solid #f1b3b1" }}>
-          {toast.msg}
-        </div>
-      )}
+    <div style={{ minHeight: "100vh", background: "#f8fafc", color: "#334155", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+      <style>{`
+        input, select { background: #ffffff; border: 1px solid #cbd5e1; color: #1e293b; padding: 12px; border-radius: 8px; width: 100%; margin-top: 4px; font-size: 15px; box-sizing: border-box; }
+        input:focus, select:focus { border-color: #3882b4; outline: none; box-shadow: 0 0 0 3px rgba(56,130,180,0.1); }
+        button { cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .mobile-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 8px; }
+        .inventory-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 8px; background: #f8fafc; border: 1px solid #edf2f7; font-size: 14px; }
+        .toast { position: fixed; bottom: 20px; left: 16px; right: 16px; padding: 14px 20px; border-radius: 10px; color: white; z-index: 1000; font-weight: bold; text-align: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15); font-size: 14px; }
+      `}</style>
 
-      {/* Confirm Modal (Stock Insuficiente) */}
+      {toast && <div className="toast" style={{ background: toast.ok ? "#77a28f" : "#cf4551" }}>{toast.msg}</div>}
+
       {confirmModal && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(15, 23, 42, 0.4)", backdropFilter: "blur(4px)", zIndex: 120, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
           <div style={{ background: "#ffffff", borderRadius: 16, width: "100%", maxWidth: 400, padding: 20, boxShadow: "0 20px 25px -5px rgba(0,0,0,0.2)", display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ fontSize: 32, textAlign: "center" }}>⚠️</div>
             <h3 style={{ margin: 0, fontSize: 16, fontWeight: "bold", color: "#1e293b", textAlign: "center" }}>{confirmModal.title}</h3>
@@ -499,218 +509,113 @@ export default function App() {
         </div>
       )}
 
-      {/* Header com os novos botões paralelos */}
+      {/* Header */}
       <header style={{ padding: "12px 16px", background: "#ffffff", borderBottom: "1px solid #e2e8f0", display: "flex", flexDirection: "column", gap: 12, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <ManpowerLogoHeader />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <ManpowerLogoHeader />
+            <div style={{ borderLeft: "1px solid #cbd5e1", paddingLeft: 8 }}>
+              <h1 style={{ fontSize: 12, fontWeight: "900", color: "#3882b4", letterSpacing: "-0.2px", margin: 0 }}>INDÚSTRIA E LOGÍSTICA</h1>
+              <p style={{ fontSize: 10, color: "#64748b", margin: 0, fontWeight: "600" }}>Gestão EPI</p>
+            </div>
+          </div>
           <div style={{ display: "flex", gap: 6 }}>
-            {/* Atualizar */}
             <button onClick={fetchCloudData} disabled={loading} style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Sincronizar dados">🔄</button>
-            {/* Relatório Diário Antigo em TXT */}
-            <button onClick={exportDailyReport} style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Exportar Relatório Diário (TXT)"><Icon name="download" size={18} /></button>
-            {/* NOVO: Inventário Geral em CSV para Excel */}
+            <button onClick={exportDailyReport} style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Exportar Relatório"><Icon name="download" size={18} /></button>
+            {/* NOVO BOTÃO DE CSV AQUI */}
             <button onClick={exportInventoryToCSV} style={{ background: "#e2f0d9", color: "#385723", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Exportar para Excel (CSV)">📊</button>
           </div>
         </div>
+        <button onClick={() => setModal("movement")} disabled={loading} style={{ background: "#3882b4", color: "white", border: "none", padding: "12px 16px", borderRadius: 10, fontWeight: "bold", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 4px 6px rgba(56,130,180,0.15)" }}><Icon name="plus" size={18} /> NOVO REGISTO DE MOVIMENTO</button>
       </header>
 
-      {/* Navegação de Abas */}
+      {/* Tabs / Menu de Páginas (Agora com 3 Abas) */}
       <nav style={{ display: "flex", background: "#ffffff", borderBottom: "1px solid #e2e8f0" }}>
         <button onClick={() => setTab("stock")} style={{ flex: 1, padding: "14px 4px", background: "none", border: "none", borderBottom: tab === "stock" ? "3px solid #3882b4" : "3px solid transparent", color: tab === "stock" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 11, textAlign: "center" }}>INVENTÁRIO</button>
         <button onClick={() => setTab("min_stock")} style={{ flex: 1, padding: "14px 4px", background: "none", border: "none", borderBottom: tab === "min_stock" ? "3px solid #e98315" : "3px solid transparent", color: tab === "min_stock" ? "#e98315" : "#64748b", fontWeight: "bold", fontSize: 11, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
-          STOCK MÍNIMO {lowStockItems.length > 0 && (
+          STOCK MÍNIMO 
+          {lowStockItems.length > 0 && (
             <span style={{ background: "#cf4551", color: "white", borderRadius: "10px", padding: "1px 6px", fontSize: 10 }}>{lowStockItems.length}</span>
           )}
         </button>
         <button onClick={() => setTab("movements")} style={{ flex: 1, padding: "14px 4px", background: "none", border: "none", borderBottom: tab === "movements" ? "3px solid #3882b4" : "3px solid transparent", color: tab === "movements" ? "#3882b4" : "#64748b", fontWeight: "bold", fontSize: 11, textAlign: "center" }}>HISTÓRICO ({movements.length})</button>
       </nav>
 
-      {loading && (
-        <div style={{ background: "#e0f2fe", color: "#0369a1", fontSize: 12, padding: "6px 12px", textAlign: "center", fontWeight: "500" }}>
-          Sincronizando com a base de dados em nuvem...
-        </div>
-      )}
+      {loading && <div style={{ background: "#e0f2fe", color: "#0369a1", fontSize: 12, padding: "6px 12px", textAlign: "center", fontWeight: "600" }}>A atualizar dados com a nuvem...</div>}
 
       {/* Conteúdo Principal */}
-      <main style={{ padding: 16 }}>
+      <main style={{ padding: 14, maxWidth: 600, margin: "0 auto" }}>
+        
         {/* ABA 1: INVENTÁRIO GERAL */}
         {tab === "stock" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {sortedProductsWithStock.map(p => (
-              <div key={p.id} className="mobile-card" style={{ borderLeft: p.hasAnySizeBelowMin ? "4px solid #cf4551" : "4px solid #77a28f" }}>
-                <div onClick={() => toggleExpand(p.id)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}>
-                  <div>
-                    <h4 style={{ margin: 0, fontSize: 14, fontWeight: "bold", color: "#1e293b" }}>{p.name}</h4>
-                    <span style={{ fontSize: 11, color: "#64748b" }}>{p.category}</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 13, fontWeight: "700", color: p.hasAnySizeBelowMin ? "#cf4551" : "#475569" }}>
-                      Total: {p.totalQty} un. {p.hasAnySizeBelowMin && "⚠️"}
-                    </span>
-                    <Icon name={expandedProducts[p.id] ? "chevronUp" : "chevronDown"} size={16} />
-                  </div>
-                </div>
+            {sortedProductsWithStock.map(p => {
+              const isExpanded = !!expandedProducts[p.id];
+              const borderLeftColor = p.hasAnySizeBelowMin ? "4px solid #cf4551" : "4px solid #3882b4";
 
-                {expandedProducts[p.id] && (
-                  <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px dashed #e2e8f0", display: "flex", flexDirection: "column", gap: 8 }}>
-                    {p.sizeStock.map(item => (
-                      <div key={item.size} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0" }}>
-                        <span style={{ fontWeight: "600", color: "#475569" }}>Tamanho {item.size}</span>
-                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <span style={{ fontSize: 11, color: "#64748b" }}>Mín: {item.minStock}</span>
-                          <span style={{ fontWeight: "700", color: item.isBelowMin ? "#cf4551" : "#1e293b" }}>
-                            {item.qty} un. {item.isBelowMin && "⚠️"}
-                          </span>
-                        </div>
+              return (
+                <div key={p.id} className="mobile-card" style={{ borderLeft: borderLeftColor, cursor: "pointer", padding: "14px 16px" }} onClick={() => toggleExpand(p.id)}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontSize: 15, fontWeight: "600", color: "#1e293b", display: "flex", alignItems: "center", gap: 6 }}>
+                        {p.name}
+                        {p.hasAnySizeBelowMin && <span style={{ color: "#cf4551", fontSize: 12, display: "flex", alignItems: "center" }} title="Alerta: Tamanho abaixo do mínimo!"><Icon name="alert" size={14} /></span>}
                       </div>
-                    ))}
+                      <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>{p.category}</div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <span style={{ fontWeight: "700", fontSize: 14, color: p.hasAnySizeBelowMin ? "#cf4551" : "#3882b4" }}>
+                        {p.totalQty} un. total
+                      </span>
+                      <span style={{ color: "#94a3b8" }}><Icon name={isExpanded ? "chevronUp" : "chevronDown"} size={18} /></span>
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
+
+                  {isExpanded && (
+                    <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px dashed #e2e8f0", display: "flex", flexDirection: "column", gap: 6 }} onClick={(e) => e.stopPropagation()}>
+                      {p.sizeStock.map(item => (
+                        <div key={item.size} className="inventory-row" style={{ border: item.isBelowMin ? "1px solid #fecaca" : "1px solid #edf2f7", background: item.isBelowMin ? "#fff5f5" : "#f8fafc" }}>
+                          <span style={{ fontWeight: "600", color: "#475569" }}>Tamanho {item.size}</span>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span style={{ fontSize: 11, color: "#64748b" }}>Mín: {item.minStock}</span>
+                            <span style={{ fontWeight: "700", color: item.isBelowMin ? "#cf4551" : "#1e293b" }}>
+                              {item.qty} un. {item.isBelowMin && "⚠️"}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
 
-        {/* ABA 2: STOCK MÍNIMO ALERTA */}
+        {/* ABA 2: NOVA PÁGINA DE STOCK MÍNIMO */}
         {tab === "min_stock" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div style={{ background: "#fff7ed", border: "1px solid #ffedd5", padding: "12px", borderRadius: "10px", fontSize: "13px", color: "#c2410c", fontWeight: "500", display: "flex", gap: 8, alignItems: "center" }}>
               <Icon name="alert" size={18} />
               <span>Abaixo são listados todos os EPI's cujo stock atual é <b>igual ou inferior</b> ao mínimo estipulado.</span>
             </div>
+            
             {lowStockItems.length === 0 ? (
               <div className="mobile-card" style={{ padding: 40, textAlign: "center", color: "#77a28f", borderLeft: "4px solid #77a28f" }}>
                 🎉 Excelente! Todos os artigos encontram-se acima do stock mínimo de segurança.
               </div>
             ) : (
               lowStockItems.map((item, idx) => (
-                <div key={idx} className="mobile-card" style={{ borderLeft: "4px solid #cf4551", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <div>
-                    <h4 style={{ margin: 0, fontSize: 13, fontWeight: "bold", color: "#1e293b" }}>{item.name}</h4>
-                    <span style={{ fontSize: 11, color: "#64748b" }}>Tamanho: {item.size} • Mín: {item.minStock}</span>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <span style={{ display: "block", fontSize: 14, fontWeight: "bold", color: "#cf4551" }}>{item.currentQty} un.</span>
-                    <span style={{ fontSize: 10, background: "#fce8e6", color: "#a82a2a", padding: "2px 6px", borderRadius: 4, fontWeight: "600" }}>Faltam {item.missing} un.</span>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        )}
-
-        {/* ABA 3: HISTÓRICO DE MOVIMENTOS */}
-        {tab === "movements" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {movements.length === 0 ? (
-              <div className="mobile-card" style={{ padding: 30, textAlign: "center", color: "#64748b" }}>
-                Nenhum movimento histórico registado.
-              </div>
-            ) : (
-              movements.map(m => (
-                <div key={m.id} className="mobile-card" style={{ borderLeft: m.type === "entry" ? "4px solid #77a28f" : "4px solid #cf4551" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+                <div key={idx} className="mobile-card" style={{ borderLeft: "4px solid #e98315", background: "#ffffff" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div>
-                      <span style={{ fontWeight: "700", color: "#1e293b", fontSize: 13 }}>{getProduct(m.productId)?.name || "EPI"}</span>
-                      <span style={{ fontSize: 11, color: "#64748b", marginLeft: 6 }}>(Tam: {m.size})</span>
+                      <div style={{ fontSize: 15, fontWeight: "600", color: "#1e293b" }}>{item.name}</div>
+                      <div style={{ fontSize: 12, color: "#e98315", fontWeight: "600", marginTop: 2 }}>Tamanho: {item.size} • <span style={{ color: "#64748b", fontWeight: "normal" }}>{item.category}</span></div>
                     </div>
-                    <div style={{ fontWeight: "bold", color: m.type === "entry" ? "#385723" : "#a82a2a", fontSize: 14, background: m.type === "entry" ? "#e2f0d9" : "#fce8e6", padding: "2px 8px", borderRadius: 6 }}>
-                      {m.type === "entry" ? "+" : "-"}{m.qty}
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 15, fontWeight: "800", color: "#cf4551" }}>{item.currentQty} un.</div>
+                      <div style={{ fontSize: 11, color: "#64748b" }}>Necessário: ≥ {item.minQty}</div>
                     </div>
                   </div>
-                  <div style={{ fontSize: 12, color: "#64748b", display: "flex", flexDirection: "column", gap: 2 }}>
-                    <div>
-                      {m.type === "exit" ? "Destino: " : "Origem: "}
-                      <b style={{ color: "#475569" }}>
-                        {m.clientId === "armazem" ? "Armazém Central" : (getClient(m.clientId)?.name || "N/A")}
-                      </b>
-                    </div>
-                    <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{fmtDate(m.date)} • {m.type === "entry" ? "Reposição" : "Consumo"}</div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        )}
-      </main>
-
-      {/* Botão de Ação Flutuante */}
-      <button onClick={() => { setCartType("exit"); setCartItems([]); setModal("movement"); }} style={{ position: "fixed", bottom: 20, right: 16, background: "#1c75bc", color: "white", border: "none", padding: "14px 22px", borderRadius: 30, fontWeight: "bold", fontSize: 14, boxShadow: "0 10px 15px -3px rgba(28, 117, 188, 0.4)", display: "flex", alignItems: "center", gap: 8, zIndex: 90 }}>
-        <Icon name="plus" size={16} /> Registar Lote
-      </button>
-
-      {/* Modal de Movimentos */}
-      {modal === "movement" && (
-        <Modal title="Registar Movimento de EPI's" onClose={() => setModal(null)}>
-          <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-            <button onClick={() => { setCartType("exit"); setCartItems([]); }} style={{ flex: 1, padding: 12, borderRadius: 10, border: "none", fontWeight: "bold", fontSize: 12, background: cartType === "exit" ? "#cf4551" : "#e2e8f0", color: cartType === "exit" ? "white" : "#475569" }}>🔻 SAÍDA (Consumo)</button>
-            <button onClick={() => { setCartType("entry"); setCartItems([]); }} style={{ flex: 1, padding: 12, borderRadius: 10, border: "none", fontWeight: "bold", fontSize: 12, background: cartType === "entry" ? "#77a28f" : "#e2e8f0", color: cartType === "entry" ? "white" : "#475569" }}>🔺 ENTRADA (Fornecedor)</button>
-          </div>
-
-          {cartType === "exit" && (
-            <div style={{ marginBottom: 12 }}>
-              <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Cliente / Obra de Destino</label>
-              <select value={cartClient} onChange={(e) => setCartClient(e.target.value)} style={{ width: "100%", background: "white", border: "1px solid #cbd5e1", borderRadius: 8, padding: 12, marginTop: 4, fontSize: 13, color: "#1e293b" }}>
-                <option value="">-- Selecione o Cliente --</option>
-                {defaultData.clients.map(c => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          <div style={{ background: "#ffffff", padding: 14, borderRadius: 12, border: "1px solid #e2e8f0", marginBottom: 16 }}>
-            <div style={{ marginBottom: 10 }}>
-              <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Selecionar Artigo</label>
-              <select value={tempItem.productId} onChange={(e) => setTempItem({ ...tempItem, productId: e.target.value, size: "" })} style={{ width: "100%", background: "white", border: "1px solid #cbd5e1", borderRadius: 8, padding: 10, marginTop: 4, fontSize: 13 }}>
-                <option value="">-- Selecione o Produto --</option>
-                {defaultData.products.map(p => (
-                  <option key={p.id} value={p.id}>{p.name}</option>
-                ))}
-              </select>
-            </div>
-
-            {tempItem.productId && (
-              <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Tamanho</label>
-                  <select value={tempItem.size} onChange={(e) => setTempItem({ ...tempItem, size: e.target.value })} style={{ width: "100%", background: "white", border: "1px solid #cbd5e1", borderRadius: 8, padding: 10, marginTop: 4, fontSize: 13 }}>
-                    <option value="">-- Tam --</option>
-                    {getProduct(tempItem.productId)?.sizes.map(s => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Quantidade</label>
-                  <input type="number" min="1" value={tempItem.qty} onChange={(e) => setTempItem({ ...tempItem, qty: Math.max(1, parseInt(e.target.value) || 1) })} style={{ width: "100%", background: "white", border: "1px solid #cbd5e1", borderRadius: 8, padding: 10, marginTop: 4, fontSize: 13, textAlign: "center" }} />
-                </div>
-              </div>
-            )}
-
-            <button onClick={addToCart} style={{ width: "100%", background: "#475569", color: "white", border: "none", padding: 12, borderRadius: 8, marginTop: 12, fontWeight: "600", fontSize: 13 }}>+ Incluir no Lote</button>
-          </div>
-
-          {cartItems.length > 0 && (
-            <div style={{ marginBottom: 16 }}>
-              <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Lista de Confirmação ({cartItems.length})</label>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 6 }}>
-                {cartItems.map(item => (
-                  <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#ffffff", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1" }}>
-                    <div style={{ fontSize: 13 }}>
-                      <b>{getProduct(item.productId)?.name}</b> (Tam: {item.size}) - <b>{item.qty} un.</b>
-                    </div>
-                    <button onClick={() => removeFromCart(item.id)} style={{ border: "none", background: "none", color: "#cf4551" }}><Icon name="trash" size={16} /></button>
-                  </div>
-                ))}
-              </div>
-              <button onClick={processBatch} style={{ width: "100%", background: cartType === "entry" ? "#77a28f" : "#cf4551", color: "white", border: "none", padding: 14, borderRadius: 10, marginTop: 16, fontWeight: "700", fontSize: 14, boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
-                CONFIRMAR E SUBMETER LOTE NO SUPABASE
-              </button>
-            </div>
-          )}
-        </Modal>
-      )}
-    </div>
-  );
-}
+                  <div style={{ background: "#fff5f5", borderRadius: "6px", padding: "6px 10px", fontSize: "11px", color: "#cf4551", fontWeight: "bold", textAlign: "center", marginTop: 4 }}>
+                    Faltam pedir pelo menos:
