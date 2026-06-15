@@ -7,12 +7,12 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ─── Tabela de Configuração de Stocks Mínimos (Imagem Fornecida) ──────────────
+/// ─── Tabela de Configuração de Stocks Mínimos (Imagem Fornecida) ──────────────
 const MINIMUM_STOCKS = {
   // Sapatos Gama Alta
   "pr1_35": 0, "pr1_36": 2, "pr1_37": 4, "pr1_38": 4, "pr1_39": 4, "pr1_40": 4, "pr1_41": 4, "pr1_42": 4, "pr1_43": 4, "pr1_44": 3, "pr1_45": 2, "pr1_46": 1,
   // Sapatos Gama Baixa
-  "pr2_35": 0, "pr2_36": 1, "pr2_37": 2, "pr2_38": 2, "pr2_39": 2, "pr2_40": 2, "pr2_41": 2, "pr2_42": 2, "pr2_43": 2, "pr2_44": 2, "pr2_45": 1, "pr2_46": 1,
+  "pr2_35": 0, "pr2_36": 1, "pr2_37": 2, "pr2_38": 2, "pr2_pm 9": 2, "pr2_40": 2, "pr2_41": 2, "pr2_42": 2, "pr2_43": 2, "pr2_44": 2, "pr2_45": 1, "pr2_46": 1,
   // T-shirt
   "pr3_XS": 0, "pr3_S": 10, "pr3_M": 10, "pr3_L": 10, "pr3_XL": 10, "pr3_XXL": 0,
   // Luva Nylon
@@ -140,33 +140,33 @@ const Icon = ({ name, size = 16 }) => {
 };
 
 const ManpowerLogoHeader = () => (
-  <svg width="130" height="42" viewBox="0 0 540 150" style={{ flexShrink: 0 }}>
-    {/* 1. BARRAS COLORIDAS (Dimensionadas e alinhadas com o texto) */}
-    <g id="manpower-symbol" transform="translate(15, 6) scale(1.15)">
-      <rect x="10" y="52" width="16" height="56" rx="8" transform="rotate(15 18 80)" fill="#1c75bc" />
-      <rect x="36" y="52" width="16" height="56" rx="8" transform="rotate(15 44 80)" fill="#5091cd" />
-      <rect x="62" y="52" width="16" height="56" rx="8" transform="rotate(15 70 80)" fill="#508571" />
-      <rect x="87" y="42" width="16" height="68" rx="8" transform="rotate(15 95 76)" fill="#b63644" />
-      <rect x="111" y="43" width="16" height="48" rx="8" transform="rotate(15 119 67)" fill="#e57e25" />
-    </g>
-    
-    {/* 2. BLOCO DE TEXTO */}
-    <g id="manpower-text">
-      {/* Palavra Manpower principal */}
-      <text x="185" y="80" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="60" fontWeight="400" fill="#005fa9" letterSpacing="-1">
-        Manpower
-      </text>
-      {/* Símbolo de Marca Registada colado ao final do texto */}
-      <text x="460" y="45" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="18" fontWeight="bold" fill="#005fa9">
-        ®
-      </text>
-      {/* Subtexto TBO a Cinzento, alinhado por baixo da palavra principal */}
-      <text x="190" y="132" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="46" fontWeight="400" fill="#71797E" letterSpacing="1">
-        TBO
-      </text>
-    </g>
-  </svg>
-);
+	<svg width="130" height="42" viewBox="0 0 540 150" style={{ flexShrink: 0 }}>
+	  {/* 1. BARRAS COLORIDAS (Dimensionadas e alinhadas com o texto) */}
+	  <g id="manpower-symbol" transform="translate(15, 6) scale(1.15)">
+		<rect x="10" y="52" width="16" height="56" rx="8" transform="rotate(15 18 80)" fill="#1c75bc" />
+		<rect x="36" y="52" width="16" height="56" rx="8" transform="rotate(15 44 80)" fill="#5091cd" />
+		<rect x="62" y="52" width="16" height="56" rx="8" transform="rotate(15 70 80)" fill="#508571" />
+		<rect x="87" y="42" width="16" height="68" rx="8" transform="rotate(15 95 76)" fill="#b63644" />
+		<rect x="111" y="43" width="16" height="48" rx="8" transform="rotate(15 119 67)" fill="#e57e25" />
+	  </g>
+  
+	  {/* 2. BLOCO DE TEXTO */}
+	  <g id="manpower-text">
+		{/* Palavra Manpower principal */}
+		<text x="185" y="80" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="60" fontWeight="400" fill="#005fa9" letterSpacing="-1">
+		  Manpower
+		</text>
+		{/* Símbolo de Marca Registada colado ao final do texto */}
+		<text x="460" y="45" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="18" fontWeight="bold" fill="#005fa9">
+		  ®
+		</text>
+		{/* Subtexto TBO a Cinzento, alinhado por baixo da palavra principal */}
+		<text x="190" y="132" fontFamily="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="46" fontWeight="400" fill="#71797E" letterSpacing="1">
+		  TBO
+		</text>
+	  </g>
+	</svg>
+  );
 
 function Modal({ title, onClose, children }) {
   return (
@@ -195,9 +195,9 @@ export default function App() {
   const [expandedProducts, setExpandedProducts] = useState({});
 
   // Estado do Carrinho
-  const [cartType, setCartType] = useState("exit");
+  const [cartType, setCartType] = useState("exit"); 
   const [cartClient, setCartClient] = useState("");
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]); 
   const [tempItem, setTempItem] = useState({ productId: "", size: "", qty: 1 });
 
   useEffect(() => {
@@ -309,7 +309,7 @@ export default function App() {
 
   const processBatch = async () => {
     if (cartType === "exit" && !cartClient) { 
-      showToast("Selecione o Cliente Relacionado", false);
+      showToast("Selecione o Cliente Relacionado", false); 
       return; 
     }
     if (cartItems.length === 0) { showToast("O carrinho está vazio", false); return; }
@@ -426,28 +426,6 @@ export default function App() {
     showToast("Relatório Diário descarregado!");
   };
 
-  // NOVO: Função para Exportar CSV
-  const exportInventoryToCSV = () => {
-    let csvContent = "\uFEFF"; 
-    csvContent += "Produto;Categoria;Tamanho;Quantidade Disponível;Stock Mínimo;Estado\n";
-    
-    sortedProductsWithStock.forEach(p => {
-      p.sizeStock.forEach(item => {
-        const estado = item.isBelowMin ? "Abaixo do Mínimo" : "OK";
-        csvContent += `${p.name};${p.category};${item.size};${item.qty};${item.minStock};${estado}\n`;
-      });
-    });
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `Inventario_EPI_Manpower_${new Date().toISOString().slice(0,10)}.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
-    showToast("Inventário Excel (CSV) descarregado!");
-  };
-
   // ─── Processar Inventário Agrupado e Ordenado Alfabeticamente ─────────────────
   const sortedProductsWithStock = defaultData.products
     .map(product => {
@@ -457,7 +435,6 @@ export default function App() {
         const minStock = MINIMUM_STOCKS[key] !== undefined ? MINIMUM_STOCKS[key] : 0;
         return { size, qty: currentQty, minStock, isBelowMin: currentQty < minStock };
       });
-    
       const totalQty = sizeStock.reduce((acc, curr) => acc + curr.qty, 0);
       const hasAnySizeBelowMin = sizeStock.some(s => s.isBelowMin);
       return { ...product, sizeStock, totalQty, hasAnySizeBelowMin };
@@ -520,10 +497,17 @@ export default function App() {
             </div>
           </div>
           <div style={{ display: "flex", gap: 6 }}>
+           {/* SUBSTITUA O BLOCO DE BOTÕES ATUAL POR ESTE (Linhas ~70): */}
+          <div style={{ display: "flex", gap: 6 }}>
+            {/* Botão de Atualizar dados */}
             <button onClick={fetchCloudData} disabled={loading} style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Sincronizar dados">🔄</button>
-            <button onClick={exportDailyReport} style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Exportar Relatório"><Icon name="download" size={18} /></button>
-            {/* NOVO BOTÃO DE CSV AQUI */}
+            
+            {/* Botão Antigo: Relatório Diário em TXT */}
+            <button onClick={exportDailyReport} style={{ background: "#f1f5f9", color: "#475569", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Exportar Relatório Diário (TXT)"><Icon name="download" size={18} /></button>
+            
+            {/* Botão Novo: Inventário Completo para Excel (CSV) */}
             <button onClick={exportInventoryToCSV} style={{ background: "#e2f0d9", color: "#385723", border: "none", width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }} title="Exportar para Excel (CSV)">📊</button>
+          </div>
           </div>
         </div>
         <button onClick={() => setModal("movement")} disabled={loading} style={{ background: "#3882b4", color: "white", border: "none", padding: "12px 16px", borderRadius: 10, fontWeight: "bold", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 4px 6px rgba(56,130,180,0.15)" }}><Icon name="plus" size={18} /> NOVO REGISTO DE MOVIMENTO</button>
@@ -618,4 +602,107 @@ export default function App() {
                     </div>
                   </div>
                   <div style={{ background: "#fff5f5", borderRadius: "6px", padding: "6px 10px", fontSize: "11px", color: "#cf4551", fontWeight: "bold", textAlign: "center", marginTop: 4 }}>
-                    Faltam pedir pelo menos:
+                    Faltam pedir pelo menos: {item.minQty - item.currentQty} un. para atingir o limite.
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* ABA 3: HISTÓRICO DE MOVIMENTOS */}
+        {tab === "movements" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {movements.map(m => (
+              <div key={m.id} className="mobile-card" style={{ borderLeft: m.type === "entry" ? "4px solid #77a28f" : "4px solid #cf4551" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ fontWeight: "600", fontSize: 14, color: "#1e293b" }}>
+                    {getProduct(m.productId)?.name} <span style={{ color: "#64748b", fontWeight: "normal" }}>(Tam: {m.size})</span>
+                  </div>
+                  <div style={{ fontWeight: "bold", fontSize: 16, color: m.type === "entry" ? "#77a28f" : "#cf4551" }}>
+                    {m.type === "entry" ? "+" : "-"}{m.qty}
+                  </div>
+                </div>
+                <div style={{ fontSize: 12, color: "#64748b", display: "flex", flexDirection: "column", gap: 2 }}>
+                  <div>
+                    {m.type === "exit" ? "Destino: " : "Origem: "}
+                    <b style={{ color: "#475569" }}>
+                      {m.clientId === "armazem" ? "Armazém Central" : (getClient(m.clientId)?.name?.split(" ")[0] || "N/A")} ...
+                    </b>
+                  </div>
+                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{fmtDate(m.date)} • {m.type === "entry" ? "Reposição" : "Consumo"}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </main>
+
+      {/* Modal de Movimentos */}
+      {modal === "movement" && (
+        <Modal title="Registar Movimento de EPI's" onClose={() => setModal(null)}>
+          <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+            <button onClick={() => { setCartType("exit"); setCartItems([]); }} style={{ flex: 1, padding: 12, borderRadius: 8, border: "none", background: cartType === "exit" ? "#cf4551" : "#e2e8f0", color: cartType === "exit" ? "white" : "#475569", fontWeight: "bold", fontSize: 12 }}>SAÍDA (Consumo)</button>
+            <button onClick={() => { setCartType("entry"); setCartItems([]); }} style={{ flex: 1, padding: 12, borderRadius: 8, border: "none", background: cartType === "entry" ? "#77a28f" : "#e2e8f0", color: cartType === "entry" ? "white" : "#475569", fontWeight: "bold", fontSize: 12 }}>ENTRADA (Aumento)</button>
+          </div>
+
+          {cartType === "exit" && (
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Cliente / Contrato Destinatário</label>
+              <select value={cartClient} onChange={e => setCartClient(e.target.value)}>
+                <option value="">Selecione a operação...</option>
+                {defaultData.clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
+          )}
+
+          <div style={{ background: "#ffffff", padding: 14, borderRadius: 10, border: "1px solid #cbd5e1", marginBottom: 16 }}>
+            <h4 style={{ fontSize: 12, fontWeight: "700", marginBottom: 10, color: "#3882b4", textTransform: "uppercase", margin: 0 }}>Adicionar ao Lote</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 6 }}>
+              <div>
+                <label style={{ fontSize: 11, color: "#64748b" }}>Produto</label>
+                <select value={tempItem.productId} onChange={e => setTempItem({ ...tempItem, productId: e.target.value, size: "" })}>
+                  <option value="">Selecionar...</option>
+                  {defaultData.products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                </select>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                <div>
+                  <label style={{ fontSize: 11, color: "#64748b" }}>Tamanho</label>
+                  <select value={tempItem.size} onChange={e => setTempItem({ ...tempItem, size: e.target.value })} disabled={!tempItem.productId}>
+                    <option value="">...</option>
+                    {getProduct(tempItem.productId)?.sizes.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ fontSize: 11, color: "#64748b" }}>Quantidade</label>
+                  <input type="number" min="1" value={tempItem.qty} onChange={e => setTempItem({ ...tempItem, qty: e.target.value })} />
+                </div>
+              </div>
+            </div>
+            <button onClick={addToCart} style={{ width: "100%", background: "#334155", color: "white", border: "none", padding: 12, borderRadius: 8, marginTop: 12, fontWeight: "600", fontSize: 13 }}>+ Incluir no Lote</button>
+          </div>
+
+          {cartItems.length > 0 && (
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ fontSize: 11, fontWeight: "700", color: "#64748b", textTransform: "uppercase" }}>Lista de Confirmação ({cartItems.length})</label>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 6 }}>
+                {cartItems.map(item => (
+                  <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#ffffff", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1" }}>
+                    <div style={{ fontSize: 13 }}>
+                      <b>{getProduct(item.productId)?.name}</b> (Tam: {item.size}) - <b>{item.qty} un.</b>
+                    </div>
+                    <button onClick={() => removeFromCart(item.id)} style={{ border: "none", background: "none", color: "#cf4551" }}><Icon name="trash" size={16} /></button>
+                  </div>
+                ))}
+              </div>
+              <button onClick={processBatch} style={{ width: "100%", background: cartType === "entry" ? "#77a28f" : "#cf4551", color: "white", border: "none", padding: 14, borderRadius: 10, marginTop: 16, fontWeight: "bold", fontSize: 14, boxShadow: "0 4px 6px rgba(0,0,0,0.05)" }}>
+                Submeter Movimento
+              </button>
+            </div>
+          )}
+        </Modal>
+      )}
+    </div>
+  );
+}
