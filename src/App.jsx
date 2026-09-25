@@ -10,7 +10,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // ─── Tabela de Configuração de Stocks Mínimos (Imagem Fornecida) ──────────────
 const MINIMUM_STOCKS = {
   // Sapatos Gama Alta
-  "pr1_35": 0, "pr1_36": 2, "pr1_37": 4, "pr1_38": 4, "pr1_39": 4, "pr1_40": 4, "pr1_41": 4, "pr1_42": 4, "pr1_43": 4, "pr1_44": 3, "pr1_45": 2, "pr1_46": 1,
+  "pr1_35": 0, "pr1_36": 0, "pr1_37": 0, "pr1_38": 0, "pr1_39": 0, "pr1_40": 0, "pr1_41": 0, "pr1_42": 0, "pr1_43": 0, "pr1_44": 0, "pr1_45": 0, "pr1_46": 0,
   // Sapatos Gama Baixa
   "pr2_35": 0, "pr2_36": 1, "pr2_37": 2, "pr2_38": 2, "pr2_39": 2, "pr2_40": 2, "pr2_41": 2, "pr2_42": 2, "pr2_43": 2, "pr2_44": 2, "pr2_45": 1, "pr2_46": 1,
   // T-shirt
