@@ -37,6 +37,10 @@ const MINIMUM_STOCKS = {
   "pr13_S": 0, "pr13_M": 0, "pr13_L": 0, "pr13_XL": 0, "pr13_XXL": 0,
   // Luvas Tipo Chefe
   "pr14_9": 0,
+    // Capacete
+  "pr15_1": 0,
+    // Óculos
+  "pr16_1": 0,
 };
 
 // ─── Dados Estáticos ──────────────────────────────────────────────────────────
@@ -56,6 +60,8 @@ const defaultData = {
     { id: "pr12", name: "Colete Preto", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
     { id: "pr13", name: "Colete Eletricista", category: "Fardamento", sizes: ["S", "M", "L", "XL", "XXL"] },
     { id: "pr14", name: "Luvas Tipo Chefe", category: "Luvas", sizes: ["9"] },
+    { id: "pr15", name: "Capacete", category: "Fardamento", sizes: ["1"] },
+    { id: "pr16", name: "Óculos", category: "Fardamento", sizes: ["1"] },
   ],
   clients: [
     { id: "cl1", name: "P000542 VESTAS (PORTUGAL) SERVIÇOS DE TECNOLOGIA EÓLICA, LDA" },
@@ -109,7 +115,8 @@ const defaultData = {
     { id: "cl49", name: "P001543 CIMPOR" },
     { id: "cl50", name: "P001563 ALLIANCE HEALTHCARE" },
     { id: "cl51", name: "P001567 HAVI" },
-    { id: "cl52", name: "P001588 TEKA" }
+    { id: "cl52", name: "P001588 TEKA" },
+    { id: "cl53", name: "P001594 SIVAL" },
   ]
 };
 
